@@ -10,13 +10,11 @@ public class BulletController : MonoBehaviour
     public GameObject sourseObject;
     public GameObject contactAnimation;
 
-    private Transform sourseObjectTransform;
-    private Transform otherObjectTransform;
-
     void Start()
     {
-        target -= sourseObject.transform.parent.position;
         target.z = 0;
+        target -= sourseObject.transform.parent.position;
+        gameObject.GetComponent<Rigidbody2D>().
         GetComponent<Rigidbody2D>().velocity = Vector3.Normalize(target) * speed;
         transform.rotation = sourseObject.transform.parent.rotation;
     }

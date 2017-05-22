@@ -6,10 +6,11 @@ public class EnemyController : PersonController
 {
 
     public float distanceToMove;
+    public float distanceOfVision;
 
     public override void FixedUpdate()
     {
-        movementController.MoveToObject(distanceToMove);
+        movementController.MoveToObject(distanceToMove, distanceOfVision);
     }
 
     public override void OnCollisionEnter2D(Collision2D other)
@@ -31,7 +32,6 @@ public class EnemyController : PersonController
     {
         lastHurtTime = Time.time;
         movementController.objMoveTo = GameObject.FindWithTag("Player");
-        health = maxHealth;
         textHealthBar.GetComponent<Text>().text = health.ToString();
     }
 

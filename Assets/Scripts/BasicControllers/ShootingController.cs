@@ -4,7 +4,6 @@ using System.Collections;
 public class ShootingController : MonoBehaviour
 {
     public GameObject shot;
-    public GameObject shotSpawnObject;
     public Vector3 point;
     private float lastFireTime;
     public float burstDelay;
@@ -22,8 +21,8 @@ public class ShootingController : MonoBehaviour
             {
                 lastFireTime = Time.time;
                 shot.gameObject.GetComponent<BulletController>().target = point;
-                shot.gameObject.GetComponent<BulletController>().sourseObject = shotSpawnObject;
-                Instantiate(shot, shotSpawnObject.transform.position, shotSpawnObject.transform.rotation);
+                shot.gameObject.GetComponent<BulletController>().sourseObject = gameObject;
+                Instantiate(shot, gameObject.transform.position, gameObject.transform.rotation);
                 GetComponent<AudioSource>().Play();
             }
         }

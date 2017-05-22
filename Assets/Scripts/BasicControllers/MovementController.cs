@@ -28,14 +28,14 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    public bool MoveToObject(float distance)
+    public bool MoveToObject(float distance,float visionDistance)
     {
         if(objMoveTo != null)
         {
             var dir = objMoveTo.transform.position - obj.transform.position;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             obj.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-            if(Vector2.Distance(obj.transform.position,objMoveTo.transform.position) > distance)
+            if(Vector2.Distance(obj.transform.position,objMoveTo.transform.position) > distance && Vector2.Distance(obj.transform.position, objMoveTo.transform.position) < visionDistance)
             {
                 obj.GetComponent<Rigidbody2D>().AddForce(obj.transform.up * speed / Time.deltaTime);
                 return false;

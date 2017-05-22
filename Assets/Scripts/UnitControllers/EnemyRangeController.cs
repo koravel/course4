@@ -7,7 +7,7 @@ public class EnemyRangeController : EnemyController
 
     public override void FixedUpdate()
     {
-        if(movementController.MoveToObject(distanceToMove))
+        if(movementController.MoveToObject(distanceToMove, distanceOfVision))
         {
             movementController.MoveFromObject(distanceToMove);
         }

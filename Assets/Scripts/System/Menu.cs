@@ -36,6 +36,7 @@ public class Menu : MonoBehaviour
 
     public Canvas levelsMenu;
 
+    public List<Button> closeButtons;
     private Level currentLevel = new Level();
     private List<string> levelPathes;
     private List<User> users = new List<User>();
@@ -53,20 +54,75 @@ public class Menu : MonoBehaviour
         }
     }
 
+    //On click user updates current user
+    private delegate void HighlightListTip(string text);
+
+    private delegate void SwitchWindow(Canvas parent, Canvas current, bool enable);
+    private delegate void SwitchMenuAndWindow(Canvas parent, Canvas current,List<GameObject> parentMenuComponents,bool enableCurrent, bool enableParent, bool enableComponents);
+    private delegate void SwitchComponents(List<GameObject> components, List<bool> enableComponents);
+
+    SwitchWindow switchWindowDelegate = (parent, current, enable) =>
+    {
+        current.enabled = !enable;
+        parent.enabled = enable;
+    };
+
+    SwitchMenuAndWindow switchMenuAndWindowDelegate = (parent, current, components, enableParent, enableCurrent, enableComponents) =>
+    {
+        current.enabled = enableCurrent;
+        parent.enabled = enableParent;
+        foreach (GameObject item in components)
+        {
+            if (item.GetComponent<Button>() != null)
+            {
+                item.GetComponent<Button>().enabled = enableComponents;
+            }
+            if (item.GetComponent<ScrollRect>() != null)
+            {
+                item.GetComponent<ScrollRect>().enabled = enableComponents;
+            }
+        }
+    };
+
+    SwitchComponents switchComponentsDelegate = (components, enableComponents) =>
+    {
+        if(components.Count != enableComponents.Count)
+        {
+            throw new System.ArgumentException(string.Format("Quantity of arrays doesn't compiles: components.Count = {0}, enableComponents.Count = {1}", components.Count, enableComponents.Count));
+        }
+        int length = components.Count;
+        for (int i = 0; i < length; i++)
+        {
+            if (components[i].GetComponent<Button>() != null)
+            {
+                components[i].GetComponent<Button>().enabled = enableComponents[i];
+            }
+            if (components[i].GetComponent<ScrollRect>() != null)
+            {
+                components[i].GetComponent<ScrollRect>().enabled = enableComponents[i];
+            }
+            if (components[i].GetComponent<Canvas>() != null)
+            {
+                components[i].GetComponent<Canvas>().enabled = enableComponents[i];
+            }
+        }
+    };
+
     void Start ()
     {
-        addUserWindow.enabled = false;
+        closeButtons[0].onClick.AddListener(() => switchMenuAndWindowDelegate(chooseProfileMenu, addUserWindow, new List<GameObject>() { createNewUserText.gameObject, chooseUserText.gameObject, deleteUserText.gameObject, exitProfileText.gameObject, userListText.gameObject }, true, false, true));
+        closeButtons[1].onClick.AddListener(() => switchWindowDelegate(addUserWindow, warningWindow, true));
         userList = new List<GameObject>();
         currentUser = "";
         DirectoryCheck(dataDir);
         DirectoryCheck(usersDir);
         if (File.Exists(dataDir + "\\" + usersListFileName))
         {
-            Serialiazer.DeserialiazitionFromXml(ref users, dataDir + "\\" + usersListFileName);
+            Serialiazer.DeserialiazitionFromXml(ref users,string.Format("{0}\\{1}", dataDir, usersListFileName));
         }
         if (File.Exists(dataDir + "\\" + levelsListFileName))
         {
-            Serialiazer.DeserialiazitionFromXml(ref levelPathes, dataDir + "\\" + levelsListFileName);
+            Serialiazer.DeserialiazitionFromXml(ref levelPathes, string.Format("{0}\\{1}", dataDir, levelsListFileName));
         }
         if (users.Count > 0)
         {
@@ -78,23 +134,14 @@ public class Menu : MonoBehaviour
             currentUser = users[0].Name;
         }
 
-        quitMenu.enabled = false;
-        optionsMenu.enabled = false;
-        mainMenu.enabled = false;
-        levelsMenu.enabled = false;
-        chooseProfileMenu.enabled = true;
+        switchComponentsDelegate.Invoke(new List<GameObject>() { warningWindow.gameObject, addUserWindow.gameObject, quitMenu.gameObject, optionsMenu.gameObject, mainMenu.gameObject, levelsMenu.gameObject, chooseProfileMenu.gameObject }, new List<bool>() { false, false, false, false, false, false, true });
     }
 
     #region MainMenu
 
     public void ExitPress()
     {
-        quitMenu.enabled = true;
-        startText.enabled = false;
-        exitMainMenuText.enabled = false;
-        continueText.enabled = false;
-        profileChangeText.enabled = false;
-        optionsText.enabled = false;
+        switchMenuAndWindowDelegate(mainMenu, quitMenu, new List<GameObject>() { startText.gameObject, exitMainMenuText.gameObject, continueText.gameObject, profileChangeText.gameObject, optionsText.gameObject }, true, true, false);
     }
 
     public void NewGamePress()
@@ -105,20 +152,17 @@ public class Menu : MonoBehaviour
 
     public void OptionsPress()
     {
-        mainMenu.enabled = false;
-        optionsMenu.enabled = true;
+        switchWindowDelegate.Invoke(optionsMenu, mainMenu, true);
     }
 
     public void ProfileChoosePress()
     {
-        mainMenu.enabled = false;
-        chooseProfileMenu.enabled = true;
+        switchWindowDelegate.Invoke(chooseProfileMenu, mainMenu, true);
     }
 
     public void ContinuePress()
     {
-        mainMenu.enabled = false;
-        levelsMenu.enabled = true;
+        switchWindowDelegate.Invoke(levelsMenu, mainMenu, true);
     }
 
     #endregion
@@ -131,12 +175,7 @@ public class Menu : MonoBehaviour
     //Enable adding user canvas
     public void CreateNewUserPress()
     {
-        addUserWindow.enabled = true;
-        createNewUserText.enabled = false;
-        chooseUserText.enabled = false;
-        deleteUserText.enabled = false;
-        exitProfileText.enabled = false;
-        userListText.enabled = false;
+        switchMenuAndWindowDelegate(chooseProfileMenu, addUserWindow, new List<GameObject>() { createNewUserText.gameObject, chooseUserText.gameObject, deleteUserText.gameObject, exitProfileText.gameObject, userListText.gameObject }, true, true, false);
     }
 
     //Create user on add action
@@ -147,28 +186,16 @@ public class Menu : MonoBehaviour
             int length = userList.Count;
             OnUserCreate(length, inputField.text);
             users.Add(new User() { Name = inputField.text, LevelsAccess = new List<bool>() {  }, LevelsScore = new List<int>() {  } });
-            Directory.CreateDirectory(usersDir + "\\" + inputField.text);
-            Serialiazer.SerialiazeToXml(ref users, dataDir + "\\" + usersListFileName);
-            addUserWindow.enabled = false;
+            Directory.CreateDirectory(string.Format("{0}\\{1}", usersDir, inputField.text));
+            Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", dataDir, usersListFileName));
+            switchMenuAndWindowDelegate(chooseProfileMenu, addUserWindow, new List<GameObject>() { createNewUserText.gameObject, chooseUserText.gameObject, deleteUserText.gameObject, exitProfileText.gameObject, userListText.gameObject }, true, false, true);
             inputField.text = "";
-            createNewUserText.enabled = true;
-            chooseUserText.enabled = true;
-            deleteUserText.enabled = true;
-            exitProfileText.enabled = true;
-            userListText.enabled = true;
         }
         else
         {
-            addUserWindow.enabled = false;
+            switchWindowDelegate.Invoke(addUserWindow,warningWindow,false);
             warningText.text = "Name is empty or already exists";
-            warningWindow.enabled = true;
         }
-    }
-
-    public void WarningNamePress()
-    {
-        warningWindow.enabled = false;
-        addUserWindow.enabled = true;
     }
 
     //Choose user and go to main menu
@@ -176,10 +203,8 @@ public class Menu : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(currentUser))
         {
-            chooseProfileMenu.enabled = false;
-            HelloText.text = "Hello, " + currentUser + "!";
-
-            mainMenu.enabled = true;
+            switchWindowDelegate.Invoke(chooseProfileMenu, mainMenu, false);
+            HelloText.text = string.Format("Hello, {0}!", currentUser);
         }
     }
     //Create user function
@@ -198,11 +223,11 @@ public class Menu : MonoBehaviour
         userList[pos].AddComponent<Button>();
         userList[pos].GetComponent<Button>().colors = new ColorBlock() { normalColor = new Color32(187, 210, 83, 255), highlightedColor = new Color32(0, 0, 0, 255), pressedColor = new Color32(0, 0, 0, 255), fadeDuration = 0.4f, colorMultiplier = 1f };
         string tempStr = userList[pos].GetComponent<Text>().text;
-        HighlightListTip hlt = (s) => 
+        HighlightListTip highlightListTipDelegate = (s) => 
         {
             currentUser = s;
         };
-        userList[pos].GetComponent<Button>().onClick.AddListener(() => hlt(tempStr));
+        userList[pos].GetComponent<Button>().onClick.AddListener(() => highlightListTipDelegate(tempStr));
 
         userList[pos].transform.SetParent(userListContent.transform);
         userList[pos].GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
@@ -212,9 +237,6 @@ public class Menu : MonoBehaviour
         userList[pos].GetComponent<RectTransform>().localPosition = new Vector3(0, -pos * 50, 0);
         userListContent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (pos + 1) * 52.5f);
     }
-
-    //On click user updates current user
-    delegate void HighlightListTip(string text);
 
     //Delete current user
     public void DeleteUserPress()
@@ -232,8 +254,8 @@ public class Menu : MonoBehaviour
         {
             userList[i].GetComponent<RectTransform>().localPosition = new Vector3(0, -i * 50, 0);
         }
-        Directory.Delete(usersDir + "\\" + userName);
-        Serialiazer.SerialiazeToXml(ref users, dataDir + "\\" + usersListFileName);
+        Directory.Delete(string.Format("{0}\\{1}", usersDir, userName));
+        Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", dataDir, usersListFileName));
     }
 
     #endregion
@@ -245,13 +267,6 @@ public class Menu : MonoBehaviour
 
     public void ReturnToMainMenuPress(Canvas menu)
     {
-        mainMenu.enabled = true;
-        menu.enabled = false;
-        startText.enabled = true;
-        exitMainMenuText.enabled = true;
-        continueText.enabled = true;
-        profileChangeText.enabled = true;
-        optionsText.enabled = true;
-
+        switchMenuAndWindowDelegate(mainMenu, menu, new List<GameObject>() { startText.gameObject, exitMainMenuText.gameObject, continueText.gameObject, profileChangeText.gameObject, optionsText.gameObject }, true, false, true);
     }
 }
