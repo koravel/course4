@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using Utilites.Level;
 using Utilites.Serialiazer;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
@@ -196,21 +194,28 @@ public class Menu : MonoBehaviour
         userList[pos].GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
         userList[pos].GetComponent<Text>().horizontalOverflow = HorizontalWrapMode.Overflow;
         userList[pos].GetComponent<Text>().verticalOverflow = VerticalWrapMode.Overflow;
+
         userList[pos].AddComponent<Button>();
         userList[pos].GetComponent<Button>().colors = new ColorBlock() { normalColor = new Color32(187, 210, 83, 255), highlightedColor = new Color32(0, 0, 0, 255), pressedColor = new Color32(0, 0, 0, 255), fadeDuration = 0.4f, colorMultiplier = 1f };
-        userList[pos].GetComponent<Button>().onClick.AddListener(() => HighlightListTip(userList[pos]));
-        userList[pos].GetComponent<RectTransform>().anchorMax = new Vector2(1, 1);
-        userList[pos].GetComponent<RectTransform>().anchorMin = new Vector2(0, 0);
+        string tempStr = userList[pos].GetComponent<Text>().text;
+        HighlightListTip hlt = (s) => 
+        {
+            currentUser = s;
+        };
+        userList[pos].GetComponent<Button>().onClick.AddListener(() => hlt(tempStr));
+
         userList[pos].transform.SetParent(userListContent.transform);
-        userList[pos].transform.localPosition = new Vector3(0, -pos * 50, 0);
-        userList[pos].GetComponent<RectTransform>().offsetMax = new Vector2(0, -pos * 50);
-        userList[pos].GetComponent<RectTransform>().offsetMin = new Vector2(0, userList[pos].GetComponent<RectTransform>().offsetMin.y);
+        userList[pos].GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
+        userList[pos].GetComponent<RectTransform>().anchorMin = new Vector2(0, 1);
+        userList[pos].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+        userList[pos].GetComponent<RectTransform>().sizeDelta = new Vector2(200, 50);
+        userList[pos].GetComponent<RectTransform>().localPosition = new Vector3(0, -pos * 50, 0);
+        userListContent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (pos + 1) * 52.5f);
     }
+
     //On click user updates current user
-    void HighlightListTip(GameObject objText)
-    {
-        currentUser = objText.GetComponent<Text>().text;
-    }
+    delegate void HighlightListTip(string text);
+
     //Delete current user
     public void DeleteUserPress()
     {
@@ -219,20 +224,22 @@ public class Menu : MonoBehaviour
         Destroy(deleteObj);
         userList.Remove(deleteObj);
         users.Remove(users.Find(item => item.Name == userName));
-        if(userList.Count == 0)
+        if (userList.Count == 0)
         {
             currentUser = "";
         }
+        for (int i = 0; i < userList.Count; i++)
+        {
+            userList[i].GetComponent<RectTransform>().localPosition = new Vector3(0, -i * 50, 0);
+        }
         Directory.Delete(usersDir + "\\" + userName);
         Serialiazer.SerialiazeToXml(ref users, dataDir + "\\" + usersListFileName);
-        Debug.Log(userList.Count);
     }
 
     #endregion
 
     public void ExitGame()
     {
-        DirectoryCheck(dataDir);
         Application.Quit();
     }
 

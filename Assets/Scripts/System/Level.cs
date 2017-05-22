@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 
 namespace Utilites.Level
 {
-    public class Level : MonoBehaviour
+    public class Level
     {
         private string levelName;
         public string LevelName
         {
             get
             {
-                return LevelName;
+                return levelName;
             }
             set
             {
@@ -24,7 +24,7 @@ namespace Utilites.Level
         {
             get
             {
-                return LevelObjects;
+                return levelObjects;
             }
             set
             {

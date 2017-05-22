@@ -10,6 +10,9 @@ public class BulletController : MonoBehaviour
     public GameObject sourseObject;
     public GameObject contactAnimation;
 
+    private Transform sourseObjectTransform;
+    private Transform otherObjectTransform;
+
     void Start()
     {
         target -= sourseObject.transform.parent.position;
@@ -20,7 +23,7 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.GetComponent<ShootingController>() == null && other.gameObject != sourseObject && other.gameObject != sourseObject.transform.parent.gameObject && other.gameObject != null && sourseObject != null && sourseObject.transform.parent.gameObject != null)
+        if(other.gameObject.GetComponent<ShootingController>() == null && other.gameObject != sourseObject && other.gameObject != sourseObject.transform.parent.gameObject && other.gameObject.transform != null && sourseObject.transform != null)
         {
             Instantiate(contactAnimation, transform.position, transform.rotation);
             if(other.gameObject.GetComponent<PersonController>() != null)

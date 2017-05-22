@@ -5,11 +5,14 @@ using System.Collections.Generic;
 
 public class ArcadeLevelBuilder : LevelBuilder
 {
+    private GameObject GetResourse(string prefabPath)
+    {
+        return Resources.Load<GameObject>(prefabPath);
+    }
+
     public GameObject MeleeBuild(string prefabPath, Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth)
     {
-        GameObject meleeEnemy = Resources.Load<GameObject>(prefabPath);
-
-
+        GameObject meleeEnemy = UnityEngine.Object.Instantiate(GetResourse(prefabPath));
         meleeEnemy.transform.position = position;
         meleeEnemy.transform.rotation = rotation;
         meleeEnemy.GetComponent<EnemyController>().invisibility = invisibility;
@@ -23,13 +26,11 @@ public class ArcadeLevelBuilder : LevelBuilder
 
     public GameObject RangeBuild(string prefabPath, Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount, float shootingDelay)
     {
-        //GameObject rangeEnemy = new GameObject();
         GameObject rangeEnemy = MeleeBuild(prefabPath, position, rotation, transparency, invisibility, invulnerable, health, maxHealth);
         for (int i = 0; i < gunCount; i++)
         {
-            //rangeEnemy.GetComponent<EnemyRangeController>().guns.Add(new GameObject());
+            rangeEnemy.GetComponent<EnemyRangeController>().guns.Add(null);
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i] = new GameObject();
-            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].transform.SetParent(rangeEnemy.transform);
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].name = "ShootingController";
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].AddComponent<ShootingController>();
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<ShootingController>().shotSpawnObject = rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<ShootingController>().gameObject;
@@ -40,9 +41,10 @@ public class ArcadeLevelBuilder : LevelBuilder
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<SpriteRenderer>().sortingOrder = 1;
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].AddComponent<AudioSource>();
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Sounds\\weapon_enemy");
-            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].transform.position = rangeEnemy.transform.position;
+            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].transform.SetParent(rangeEnemy.gameObject.transform);
+            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].transform.position = rangeEnemy.gameObject.transform.position;
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].AddComponent<BoxCollider2D>();
-            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<BoxCollider2D>().size = new Vector2(0.18f, 0.65f);
+            rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.7f);
             rangeEnemy.GetComponent<EnemyRangeController>().guns[i].GetComponent<BoxCollider2D>().sharedMaterial = Resources.Load<PhysicsMaterial2D>("PhysicsMaterials\\EnemyBounce");
             if (gunCount > 1)
             {
@@ -63,10 +65,11 @@ public class ArcadeLevelBuilder : LevelBuilder
         return rangeEnemy;
     }
 
-    private GameObject PlayerBuild(string prefabPath,Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount, float shootingDelay, Camera cam)
+    public GameObject PlayerBuild(string prefabPath,Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount, float shootingDelay, ref Camera cam)
     {
         GameObject player = RangeBuild(prefabPath, position, rotation, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunCount, shootingDelay);
         player.GetComponent<PlayerController>().cam = cam;
+        cam.GetComponent<CameraMove>().target = player.transform;
         return player;
     }
 
@@ -75,25 +78,27 @@ public class ArcadeLevelBuilder : LevelBuilder
         level.LevelObjects.Add(MeleeBuild("Prefabs\\Units\\EnemyMelee", position, rotation, transparency, invisibility, invulnerable, health, maxHealth));
     }
 
-    public override void BuildRangeEnemy(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount,float shootingDelay, float distance, Transform parentTransform)
+    public override void BuildRangeEnemy(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount,float shootingDelay, float distance)
     {
         GameObject rangeEnemy = RangeBuild("Prefabs\\Units\\EnemyRange", position, rotation, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunCount, shootingDelay);
         rangeEnemy.GetComponent<EnemyRangeController>().distanceToMove = distance;
         level.LevelObjects.Add(rangeEnemy);
     }
 
-    public override void BuildPlayer(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount, float shootingDelay, Transform parentTransform,Camera cam)
+    public override void BuildPlayer(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, float[] gunsPosition, int gunCount, float shootingDelay, ref Camera cam)
     {
-        level.LevelObjects.Add(PlayerBuild("Prefabs\\Units\\Player", position, rotation, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunCount, shootingDelay, cam));
+        level.LevelObjects.Add(PlayerBuild("Prefabs\\Units\\Player", position, rotation, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunCount, shootingDelay, ref cam));
     }
 
     public override void BuildWall(Vector3 position, Quaternion rotation, Vector3 scale)
     {
-        GameObject wall = Resources.Load<GameObject>("Prefabs\\Units\\Wall");
+        GameObject wall = UnityEngine.Object.Instantiate(GetResourse("Prefabs\\Units\\Wall"));
         wall.transform.position = position;
         wall.transform.rotation = rotation;
         wall.transform.localScale = scale;
+        wall.name = "Wall";
         level.LevelObjects.Add(wall);
+        
     }
 
     public override void BuildBossEnemy(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth)

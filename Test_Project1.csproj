@@ -66,18 +66,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Fonts\Script\scriptTexttest.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\AlwaysFace.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\CameraScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\DestroyAfter.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\GUICameraScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\GUIHPParticleScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\GUIProjectileSettingsScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\HPParticleScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\HPScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\PlayerCollisionScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\ProjectileScript.cs" />
-    <Compile Include="Assets\HPParticle\Scripts\ProjectileShooterScript.cs" />
+    <Compile Include="Assets\Extra\Fonts\Script\scriptTexttest.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\AlwaysFace.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\CameraScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\DestroyAfter.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\GUICameraScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\GUIHPParticleScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\GUIProjectileSettingsScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\HPParticleScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\HPScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\PlayerCollisionScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileScript.cs" />
+    <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileShooterScript.cs" />
     <Compile Include="Assets\Scripts\BasicControllers\MeleeController.cs" />
     <Compile Include="Assets\Scripts\BasicControllers\MovementController.cs" />
     <Compile Include="Assets\Scripts\BasicControllers\ShootingController.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="Assets\Scripts\System\LevelBuilder.cs" />
     <Compile Include="Assets\Scripts\System\Menu.cs" />
     <Compile Include="Assets\Scripts\System\Serialiazer.cs" />
-    <Compile Include="Assets\Scripts\System\Test.cs" />
+    <Compile Include="Assets\Scripts\System\TestBuilderDirector.cs" />
     <Compile Include="Assets\Scripts\System\User.cs" />
     <Compile Include="Assets\Scripts\UnitControllers\BulletController.cs" />
     <Compile Include="Assets\Scripts\UnitControllers\EnemyController.cs" />
@@ -100,9 +100,9 @@
     <Compile Include="Assets\Scripts\UnitControllers\WallController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
-    <None Include="Assets\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
-    <None Include="Assets\HPParticle\Third Person Character\Third Person Character Guidelines.txt" />
+    <None Include="Assets\Extra\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
+    <None Include="Assets\Extra\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
+    <None Include="Assets\Extra\HPParticle\Third Person Character\Third Person Character Guidelines.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
