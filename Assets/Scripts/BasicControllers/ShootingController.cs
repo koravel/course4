@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class ShootingController : MonoBehaviour
 {
@@ -13,18 +12,28 @@ public class ShootingController : MonoBehaviour
         lastFireTime = Time.time;
     }
 
-    public void Fire(bool canFire)
+    private void Fire(bool canFire,Vector3 direction)
     {
         if (canFire)
         {
             if (Time.time > (lastFireTime + burstDelay))
             {
                 lastFireTime = Time.time;
-                shot.gameObject.GetComponent<BulletController>().target = point;
+                shot.gameObject.GetComponent<BulletController>().target = direction;
                 shot.gameObject.GetComponent<BulletController>().sourseObject = gameObject;
                 Instantiate(shot, gameObject.transform.position, gameObject.transform.rotation);
                 GetComponent<AudioSource>().Play();
             }
         }
+    }
+
+    public void FireOnClick(bool canFire)
+    {
+        Fire(canFire, point);
+    }
+
+    public void FireInDirection(bool canFire, Vector2 direction)
+    {
+        Fire(canFire, direction);
     }
 }

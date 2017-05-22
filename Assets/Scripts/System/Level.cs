@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Utilites.Level
 {
@@ -30,26 +29,6 @@ namespace Utilites.Level
             {
                 levelObjects = value;
             }
-        }
-
-        public void Load()
-        {
-            SceneManager.LoadScene(levelName);
-        }
-
-        public void UserLoad()
-        {
-
-        }
-
-        public void Close()
-        {
-
-        }
-
-        public void Save()
-        {
-
         }
     }
 

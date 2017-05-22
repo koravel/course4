@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerController : EnemyRangeController
+public class PlayerController : RangeController
 {
 
     public Camera cam;
@@ -37,7 +37,7 @@ public class PlayerController : EnemyRangeController
             if(item != null)
             {
                 item.GetComponent<ShootingController>().point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                item.GetComponent<ShootingController>().Fire(Input.GetMouseButton(0));
+                item.GetComponent<ShootingController>().FireOnClick(Input.GetMouseButton(0));
             }
         }
     }

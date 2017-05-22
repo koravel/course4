@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
-    <Name>11</Name>
+    <Name>cvb</Name>
     <LevelsAccess />
     <LevelsScore />
   </User>
   <User>
-    <Name>dfg</Name>
-    <LevelsAccess />
-    <LevelsScore />
-  </User>
-  <User>
-    <Name>qq</Name>
-    <LevelsAccess />
-    <LevelsScore />
-  </User>
-  <User>
-    <Name>12</Name>
-    <LevelsAccess />
-    <LevelsScore />
-  </User>
-  <User>
-    <Name>1212</Name>
-    <LevelsAccess />
-    <LevelsScore />
+    <Name>vvv</Name>
+    <LevelsAccess>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+    </LevelsAccess>
+    <LevelsScore>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </LevelsScore>
   </User>
 </ArrayOfUser>

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.4.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -78,13 +80,10 @@
     <Compile Include="Assets\Extra\HPParticle\Scripts\PlayerCollisionScript.cs" />
     <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileScript.cs" />
     <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileShooterScript.cs" />
-    <Compile Include="Assets\Scripts\BasicControllers\MeleeController.cs" />
     <Compile Include="Assets\Scripts\BasicControllers\MovementController.cs" />
     <Compile Include="Assets\Scripts\BasicControllers\ShootingController.cs" />
     <Compile Include="Assets\Scripts\Controllers\CameraMove.cs" />
-    <Compile Include="Assets\Scripts\Controllers\ObjectController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PersonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
     <Compile Include="Assets\Scripts\ObjectDataTemplates\LevelModel.cs" />
     <Compile Include="Assets\Scripts\ObjectDataTemplates\MeleeModel.cs" />
     <Compile Include="Assets\Scripts\ObjectDataTemplates\ObjectModel.cs" />
@@ -92,17 +91,22 @@
     <Compile Include="Assets\Scripts\ObjectDataTemplates\RangeModel.cs" />
     <Compile Include="Assets\Scripts\ObjectDataTemplates\WallModel.cs" />
     <Compile Include="Assets\Scripts\System\ArcadeLevelBuilder.cs" />
+    <Compile Include="Assets\Scripts\System\BuilderDirector.cs" />
     <Compile Include="Assets\Scripts\System\DestroyByTime.cs" />
+    <Compile Include="Assets\Scripts\System\Direction.cs" />
+    <Compile Include="Assets\Scripts\System\GlobalData.cs" />
+    <Compile Include="Assets\Scripts\System\InGameMenu.cs" />
     <Compile Include="Assets\Scripts\System\Level.cs" />
     <Compile Include="Assets\Scripts\System\LevelBuilder.cs" />
+    <Compile Include="Assets\Scripts\System\LevelDecomposer.cs" />
     <Compile Include="Assets\Scripts\System\Menu.cs" />
     <Compile Include="Assets\Scripts\System\Serialiazer.cs" />
-    <Compile Include="Assets\Scripts\System\TestBuilderDirector.cs" />
+    <Compile Include="Assets\Scripts\System\StringComparer.cs" />
     <Compile Include="Assets\Scripts\System\User.cs" />
     <Compile Include="Assets\Scripts\UnitControllers\BulletController.cs" />
-    <Compile Include="Assets\Scripts\UnitControllers\EnemyController.cs" />
-    <Compile Include="Assets\Scripts\UnitControllers\EnemyRangeController.cs" />
+    <Compile Include="Assets\Scripts\UnitControllers\MeleeController.cs" />
     <Compile Include="Assets\Scripts\UnitControllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\UnitControllers\RangeController.cs" />
     <Compile Include="Assets\Scripts\UnitControllers\WallController.cs" />
   </ItemGroup>
   <ItemGroup>

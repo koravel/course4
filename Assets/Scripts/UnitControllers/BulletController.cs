@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Controllers;
 using UnityEngine.UI;
 
 public class BulletController : MonoBehaviour
@@ -21,25 +20,37 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.GetComponent<ShootingController>() == null && other.gameObject != sourseObject && other.gameObject != sourseObject.transform.parent.gameObject && other.gameObject.transform != null && sourseObject.transform != null)
+        if (other.gameObject != null && sourseObject != null)
         {
-            Instantiate(contactAnimation, transform.position, transform.rotation);
-            if(other.gameObject.GetComponent<PersonController>() != null)
+            if (other.gameObject != sourseObject && other.gameObject != sourseObject.transform.parent.gameObject && other.gameObject.transform.parent != sourseObject.transform.parent)
             {
-                if (!other.gameObject.GetComponent<PersonController>().invulnerable)
+                Instantiate(contactAnimation, transform.position, transform.rotation);
+                GameObject obj;
+                if (other.gameObject.GetComponent<ShootingController>() != null)
                 {
-                    other.gameObject.GetComponent<PersonController>().health -= damage;
+                    obj = other.gameObject.transform.parent.gameObject;
                 }
-                other.gameObject.GetComponent<PersonController>().healthBar.transform.localScale = new Vector3(other.gameObject.GetComponent<PersonController>().health / other.gameObject.GetComponent<PersonController>().maxHealth, other.gameObject.GetComponent<PersonController>().healthBar.transform.localScale.y, 0);
-                other.gameObject.GetComponent<PersonController>().textHealthBar.GetComponent<Text>().text = other.gameObject.GetComponent<PersonController>().health.ToString();
+                else
+                {
+                    obj = other.gameObject;
+                }
+                if (obj.GetComponent<PersonController>() != null)
+                {
+                    if (!obj.GetComponent<PersonController>().invulnerable)
+                    {
+                        obj.GetComponent<PersonController>().health -= damage;
+                    }
+                    obj.GetComponent<PersonController>().healthBar.transform.localScale = new Vector3(obj.GetComponent<PersonController>().health / obj.GetComponent<PersonController>().maxHealth, obj.GetComponent<PersonController>().healthBar.transform.localScale.y, 0);
+                    obj.GetComponent<PersonController>().textHealthBar.GetComponent<Text>().text = obj.GetComponent<PersonController>().health.ToString();
+                    Destroy(gameObject);
+                    if (obj.GetComponent<PersonController>().health <= 0)
+                    {
+                        Instantiate(obj.GetComponent<PersonController>().explosionAnimation, obj.transform.position, obj.transform.rotation);
+                        Destroy(obj);
+                    }
+                }
                 Destroy(gameObject);
-                if (other.gameObject.GetComponent<PersonController>().health <= 0)
-                {
-                    Instantiate(other.gameObject.GetComponent<PersonController>().explosionAnimation, other.gameObject.transform.position, other.gameObject.transform.rotation);
-                    Destroy(other.gameObject);
-                }
             }
-            Destroy(gameObject);
         }
     }
 }

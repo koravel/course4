@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Utilites.Level;
 using Utilites.Serialiazer;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +8,11 @@ using System.Linq;
 
 public class Menu : MonoBehaviour
 {
+
+    #region Members
+
+    #region MainMenuMembers
+
     public Canvas mainMenu;
     public Canvas quitMenu;
     public Button exitMainMenuText;
@@ -18,7 +22,15 @@ public class Menu : MonoBehaviour
     public Button optionsText;
     public Text HelloText;
 
+    #endregion
+
+    #region OptionsMenuMembers
+
     public Canvas optionsMenu;
+
+    #endregion
+
+    #region ChooseProfileMenuMembers
 
     public Canvas chooseProfileMenu;
     public Canvas addUserWindow;
@@ -34,17 +46,28 @@ public class Menu : MonoBehaviour
     public InputField inputField;
     private List<GameObject> userList;
 
-    public Canvas levelsMenu;
+    #endregion
+
+    #region ContinueMenuMembers
+
+    public Canvas continueMenu;
+    public Button chooseLevelText;
+    public Button loadLevelText;
+    public ScrollRect levelListText;
+    public GameObject levelListContent;
+    private List<GameObject> levelList;
+
+    #endregion
+
+    #region CommonMenuMembers
 
     public List<Button> closeButtons;
-    private Level currentLevel = new Level();
     private List<string> levelPathes;
+    private List<string> userLevelPathes;
     private List<User> users = new List<User>();
     private string currentUser;
-    private string usersDir = "Users";
-    private string dataDir = "Data";
-    private string usersListFileName = "users.xml";
-    private string levelsListFileName = "levels.xml";
+    private bool isLoadGamePressed;
+    private ColorBlock buttonStyle = new ColorBlock() { normalColor = new Color32(187, 210, 83, 255), highlightedColor = new Color32(0, 0, 0, 255), pressedColor = new Color32(0, 0, 0, 255), fadeDuration = 0.4f, colorMultiplier = 1f };
 
     private void DirectoryCheck(string path)
     {
@@ -110,32 +133,36 @@ public class Menu : MonoBehaviour
 
     void Start ()
     {
+        levelPathes = Directory.GetFiles(GlobalData.levelsDir).Select(s => s).OrderBy(s => s.Length).ThenBy(s => s, new StringComparer()).ToList();
         closeButtons[0].onClick.AddListener(() => switchMenuAndWindowDelegate(chooseProfileMenu, addUserWindow, new List<GameObject>() { createNewUserText.gameObject, chooseUserText.gameObject, deleteUserText.gameObject, exitProfileText.gameObject, userListText.gameObject }, true, false, true));
         closeButtons[1].onClick.AddListener(() => switchWindowDelegate(addUserWindow, warningWindow, true));
         userList = new List<GameObject>();
+        levelList = new List<GameObject>();
         currentUser = "";
-        DirectoryCheck(dataDir);
-        DirectoryCheck(usersDir);
-        if (File.Exists(dataDir + "\\" + usersListFileName))
+        DirectoryCheck(GlobalData.dataDir);
+        DirectoryCheck(GlobalData.usersDir);
+        string pathUserData = string.Format("{0}\\{1}", GlobalData.dataDir, GlobalData.usersListFileName);
+        if (File.Exists(pathUserData))
         {
-            Serialiazer.DeserialiazitionFromXml(ref users,string.Format("{0}\\{1}", dataDir, usersListFileName));
+            Serialiazer.DeserialiazitionFromXml(ref users, pathUserData);
         }
-        if (File.Exists(dataDir + "\\" + levelsListFileName))
-        {
-            Serialiazer.DeserialiazitionFromXml(ref levelPathes, string.Format("{0}\\{1}", dataDir, levelsListFileName));
-        }
+        
         if (users.Count > 0)
         {
             for (int i = 0; i < users.Count; i++)
             {
-                OnUserCreate(i, users[i].Name);
+                ScrollRectContentInit(userList, userListContent, "user", i, users[i].Name, 200);
             }
 
             currentUser = users[0].Name;
         }
 
-        switchComponentsDelegate.Invoke(new List<GameObject>() { warningWindow.gameObject, addUserWindow.gameObject, quitMenu.gameObject, optionsMenu.gameObject, mainMenu.gameObject, levelsMenu.gameObject, chooseProfileMenu.gameObject }, new List<bool>() { false, false, false, false, false, false, true });
+        switchComponentsDelegate.Invoke(new List<GameObject>() { warningWindow.gameObject, addUserWindow.gameObject, quitMenu.gameObject, optionsMenu.gameObject, mainMenu.gameObject, continueMenu.gameObject, chooseProfileMenu.gameObject }, new List<bool>() { false, false, false, false, false, false, true });
     }
+
+    #endregion
+
+    #endregion
 
     #region MainMenu
 
@@ -146,8 +173,11 @@ public class Menu : MonoBehaviour
 
     public void NewGamePress()
     {
-        currentLevel.LevelName = "TestingArea";
-        currentLevel.Load();
+        if(levelPathes.Count > 0)
+        {
+            GlobalData.levelName = levelPathes[0];
+            SceneManager.LoadSceneAsync("Level");
+        }
     }
 
     public void OptionsPress()
@@ -162,7 +192,7 @@ public class Menu : MonoBehaviour
 
     public void ContinuePress()
     {
-        switchWindowDelegate.Invoke(levelsMenu, mainMenu, true);
+        switchWindowDelegate.Invoke(continueMenu, mainMenu, true);
     }
 
     #endregion
@@ -172,6 +202,7 @@ public class Menu : MonoBehaviour
     #endregion
 
     #region ChooseProfile
+
     //Enable adding user canvas
     public void CreateNewUserPress()
     {
@@ -184,10 +215,11 @@ public class Menu : MonoBehaviour
         if (!string.IsNullOrEmpty(inputField.text) && !users.Exists(x => x.Name.ToLower() == inputField.text.ToLower()))
         {
             int length = userList.Count;
-            OnUserCreate(length, inputField.text);
-            users.Add(new User() { Name = inputField.text, LevelsAccess = new List<bool>() {  }, LevelsScore = new List<int>() {  } });
-            Directory.CreateDirectory(string.Format("{0}\\{1}", usersDir, inputField.text));
-            Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", dataDir, usersListFileName));
+            ScrollRectContentInit(userList, userListContent, "user", length, inputField.text, 200);
+
+            users.Add(new User() { Name = inputField.text, LevelsAccess = new List<bool>(levelPathes.Select(s => false)), LevelsScore = new List<int>(levelPathes.Select(s => 0)) });
+            Directory.CreateDirectory(string.Format("{0}\\{1}", GlobalData.usersDir, inputField.text));
+            Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", GlobalData.dataDir, GlobalData.usersListFileName));
             switchMenuAndWindowDelegate(chooseProfileMenu, addUserWindow, new List<GameObject>() { createNewUserText.gameObject, chooseUserText.gameObject, deleteUserText.gameObject, exitProfileText.gameObject, userListText.gameObject }, true, false, true);
             inputField.text = "";
         }
@@ -203,39 +235,13 @@ public class Menu : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(currentUser))
         {
+            GlobalData.user = users.Find(u => u.Name == currentUser);
+            string curDir = string.Format("{0}\\{1}",GlobalData.usersDir ,currentUser);
+            userLevelPathes = Directory.GetFiles(curDir).Select(s => s).OrderBy(s => s.Length).ThenBy(s => s, new StringComparer()).ToList();
             switchWindowDelegate.Invoke(chooseProfileMenu, mainMenu, false);
+            ClearLevelList();
             HelloText.text = string.Format("Hello, {0}!", currentUser);
         }
-    }
-    //Create user function
-    private void OnUserCreate(int pos,string text)
-    {
-        userList.Add(new GameObject());
-        userList[pos].AddComponent<Text>();
-        userList[pos].GetComponent<Text>().text = text;
-        userList[pos].GetComponent<Text>().font = Resources.Load<Font>("Fonts\\JazzCreateBubble");
-        userList[pos].GetComponent<Text>().fontSize = 30;
-        userList[pos].GetComponent<Text>().fontStyle = FontStyle.Normal;
-        userList[pos].GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-        userList[pos].GetComponent<Text>().horizontalOverflow = HorizontalWrapMode.Overflow;
-        userList[pos].GetComponent<Text>().verticalOverflow = VerticalWrapMode.Overflow;
-
-        userList[pos].AddComponent<Button>();
-        userList[pos].GetComponent<Button>().colors = new ColorBlock() { normalColor = new Color32(187, 210, 83, 255), highlightedColor = new Color32(0, 0, 0, 255), pressedColor = new Color32(0, 0, 0, 255), fadeDuration = 0.4f, colorMultiplier = 1f };
-        string tempStr = userList[pos].GetComponent<Text>().text;
-        HighlightListTip highlightListTipDelegate = (s) => 
-        {
-            currentUser = s;
-        };
-        userList[pos].GetComponent<Button>().onClick.AddListener(() => highlightListTipDelegate(tempStr));
-
-        userList[pos].transform.SetParent(userListContent.transform);
-        userList[pos].GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
-        userList[pos].GetComponent<RectTransform>().anchorMin = new Vector2(0, 1);
-        userList[pos].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
-        userList[pos].GetComponent<RectTransform>().sizeDelta = new Vector2(200, 50);
-        userList[pos].GetComponent<RectTransform>().localPosition = new Vector3(0, -pos * 50, 0);
-        userListContent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (pos + 1) * 52.5f);
     }
 
     //Delete current user
@@ -254,11 +260,108 @@ public class Menu : MonoBehaviour
         {
             userList[i].GetComponent<RectTransform>().localPosition = new Vector3(0, -i * 50, 0);
         }
-        Directory.Delete(string.Format("{0}\\{1}", usersDir, userName));
-        Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", dataDir, usersListFileName));
+        Directory.Delete(string.Format("{0}\\{1}", GlobalData.usersDir, userName));
+        Serialiazer.SerialiazeToXml(ref users, string.Format("{0}\\{1}", GlobalData.dataDir, GlobalData.usersListFileName));
     }
 
     #endregion
+
+    #region Continue
+
+    public void ChooseLevelPress()
+    {
+        LevelScrollRectContentInit(false, GlobalData.levelsDir, levelPathes);
+    }
+
+    public void LoadGamePress()
+    {
+        LevelScrollRectContentInit(true, GlobalData.usersDir + "\\" + currentUser, userLevelPathes);
+    }
+
+    private void LevelScrollRectContentInit(bool typeOfLoad,string directory, List<string> levelPathes)
+    {
+        isLoadGamePressed = typeOfLoad;
+        ClearLevelList();
+        for (int i = 0; i < levelPathes.Count; i++)
+        {
+            ScrollRectContentInit(levelList, levelListContent, "level", i, levelPathes[i].Replace(directory + "\\", "").Replace(".xml", ""), 700);
+        }
+    }
+
+    #endregion
+
+    #region Common
+
+    private void ScrollRectContentInit(List<GameObject> list, GameObject content, string currentFlag, int pos, string text, int width)
+    {
+        list.Add(new GameObject());
+        list[pos].AddComponent<Text>();
+        list[pos].GetComponent<Text>().text = text;
+        list[pos].GetComponent<Text>().font = Resources.Load<Font>(GlobalData.font);
+        list[pos].GetComponent<Text>().fontSize = 30;
+        list[pos].GetComponent<Text>().fontStyle = FontStyle.Normal;
+        list[pos].GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+        list[pos].GetComponent<Text>().horizontalOverflow = HorizontalWrapMode.Overflow;
+        list[pos].GetComponent<Text>().verticalOverflow = VerticalWrapMode.Overflow;
+
+        list[pos].AddComponent<Button>();
+        list[pos].GetComponent<Button>().colors = buttonStyle;
+        string tempStr = list[pos].GetComponent<Text>().text;
+        HighlightListTip highlightListTipDelegate = (s) => { };
+        switch(currentFlag)
+        {
+            case "user":
+                {
+                    highlightListTipDelegate = (s) =>
+                    {
+                        currentUser = s;
+                    };
+                    break;
+                }
+            case "level":
+                {
+                    highlightListTipDelegate = (s) =>
+                    {
+                        if (isLoadGamePressed)
+                        {
+                            GlobalData.levelName = GlobalData.usersDir + "\\" + currentUser;
+                        }
+                        else
+                        {
+                            GlobalData.levelName = GlobalData.levelsDir;
+                        }
+                        GlobalData.levelName += "\\" + s + ".xml";
+                        if (File.Exists(GlobalData.levelName))
+                        {
+                            SceneManager.LoadSceneAsync("Level");
+                        }
+                        else
+                        {
+                            //warningText.text = string.Format("File {0} does not exist", GlobalData.levelName);
+                        }
+                    };
+                    break;
+                }
+        }
+        list[pos].GetComponent<Button>().onClick.AddListener(() => highlightListTipDelegate(tempStr));
+
+        list[pos].transform.SetParent(content.transform);
+        list[pos].GetComponent<RectTransform>().anchorMax = new Vector2(0, 1);
+        list[pos].GetComponent<RectTransform>().anchorMin = new Vector2(0, 1);
+        list[pos].GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+        list[pos].GetComponent<RectTransform>().sizeDelta = new Vector2(width, 50);
+        list[pos].GetComponent<RectTransform>().localPosition = new Vector3(0, -pos * 50, 0);
+        content.GetComponent<RectTransform>().sizeDelta = new Vector2(0, (pos + 1) * 52.5f);
+    }
+
+    private void ClearLevelList()
+    {
+        if (levelList.Count != 0)
+        {
+            levelList.ForEach((o) => { Destroy(o); });
+            levelList.Clear();
+        }
+    }
 
     public void ExitGame()
     {
@@ -269,4 +372,11 @@ public class Menu : MonoBehaviour
     {
         switchMenuAndWindowDelegate(mainMenu, menu, new List<GameObject>() { startText.gameObject, exitMainMenuText.gameObject, continueText.gameObject, profileChangeText.gameObject, optionsText.gameObject }, true, false, true);
     }
+
+    public void Debug()
+    {
+        SceneManager.LoadSceneAsync("TestingArea");
+    }
+
+    #endregion
 }
