@@ -1,0 +1,36 @@
+﻿using UnityEngine;
+using System.Collections;
+using System;
+
+public class MovementController : MonoBehaviour
+{
+    public float speed;
+    public GameObject obj;
+    public GameObject objMoveTo;
+
+    public void Turn(Vector2 _turnPos)
+    {
+        Vector2 player_pos = Camera.main.WorldToScreenPoint(obj.transform.position);
+
+        _turnPos.x = _turnPos.x - player_pos.x;
+        _turnPos.y = _turnPos.y - player_pos.y;
+
+        float angle = Mathf.Atan2(_turnPos.y, _turnPos.x) * Mathf.Rad2Deg - 90;
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
+    public void Move(Vector2 _movement)
+    {
+        obj.GetComponent<Rigidbody2D>().AddForce(_movement * speed / Time.deltaTime);
+    }
+
+    public void MoveToObject()
+    {
+        obj.transform.LookAt(objMoveTo.transform.position);
+        obj.transform.Rotate(new Vector3(0, -90, 0), Space.Self);
+        if (Vector3.Distance(transform.position, objMoveTo.transform.position) > 1f)
+        {
+            obj.transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+        }
+    }
+}

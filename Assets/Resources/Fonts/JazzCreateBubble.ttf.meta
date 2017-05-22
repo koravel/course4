@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e4b1275cf4aa2374bb4a3a042c40234d
+timeCreated: 1479136370
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - JazzCreateBubble
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 58b647c5b2ec4184e9a07a561cdf0644, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
