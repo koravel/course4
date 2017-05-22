@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MeleeController : PersonController
@@ -20,7 +21,7 @@ public class MeleeController : PersonController
 
     public override void OnDestroy()
     {
-        
+        GlobalData.score += scorePoints;
     }
 
     public override void Start()

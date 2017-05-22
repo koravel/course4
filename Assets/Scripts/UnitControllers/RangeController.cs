@@ -6,8 +6,7 @@ public class RangeController : MeleeController
     public int gunCount;
     public float shootingDelay;
     public List<GameObject> guns;
-    public List<Vector2> gunsPosition;
-    public List<Quaternion> gunsRotation;
+    public string bulletPrefab;
 
     public override void FixedUpdate()
     {

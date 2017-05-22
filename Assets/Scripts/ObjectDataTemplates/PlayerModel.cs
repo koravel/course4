@@ -8,8 +8,8 @@ public class PlayerModel : RangeModel
 
     }
 
-    public PlayerModel(Vector3 position, Quaternion rotation, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, List<Vector2> gunsPosition, List<Quaternion> gunsRotation, int gunCount, float shootingDelay) : 
-        base(position, rotation, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunsRotation, gunCount, shootingDelay, 0, 0)
+    public PlayerModel(Vector3 position, Quaternion rotation, Vector3 localScale, bool transparency, bool invisibility, bool invulnerable, float health, float maxHealth, List<Vector2> gunsPosition, List<float> gunsRotation, List<float> gunsScale, int gunCount, float shootingDelay, float hurtDelay, float scorePoints, string bulletPrefab) : 
+        base(position, rotation, localScale, transparency, invisibility, invulnerable, health, maxHealth, gunsPosition, gunsRotation, gunsScale, gunCount, shootingDelay, 0, 0, hurtDelay, 0, bulletPrefab)
     {
 
     }

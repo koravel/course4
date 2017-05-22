@@ -17,4 +17,10 @@ public class LevelModel
     public PlayerModel playerObj;
     [XmlAttribute]
     public string backgroundSpritePath;
+    [XmlAttribute]
+    public int levelScore;
+    [XmlAttribute]
+    public int levelTime;
+    [XmlAttribute]
+    public int levelIndex;
 }

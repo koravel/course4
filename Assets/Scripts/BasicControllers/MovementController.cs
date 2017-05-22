@@ -7,10 +7,16 @@ public class MovementController : MonoBehaviour
     public float speed;
     public GameObject obj;
     public GameObject objMoveTo;
+    private bool paused;
+
+    public void Start()
+    {
+        paused = false;
+    }
 
     public void Turn(Vector2 _turnPos)
     {
-        if (obj != null)
+        if (obj != null && !paused)
         {
             Vector2 player_pos = Camera.main.WorldToScreenPoint(obj.transform.position);
             _turnPos.x = _turnPos.x - player_pos.x;
@@ -22,7 +28,7 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector2 _movement)
     {
-        if(obj != null)
+        if(obj != null && !paused)
         {
             obj.GetComponent<Rigidbody2D>().AddForce(_movement * speed / Time.deltaTime);
         }
@@ -30,7 +36,7 @@ public class MovementController : MonoBehaviour
 
     public bool MoveToObject(float distance,float visionDistance)
     {
-        if(objMoveTo != null)
+        if(objMoveTo != null && !paused)
         {
             var dir = objMoveTo.transform.position - obj.transform.position;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -51,12 +57,25 @@ public class MovementController : MonoBehaviour
 
     public void MoveFromObject(float distance)
     {
-        var dir = objMoveTo.transform.position - obj.transform.position;
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        obj.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        if (Vector2.Distance(obj.transform.position, objMoveTo.transform.position) < distance)
+        if(!paused)
         {
-            obj.GetComponent<Rigidbody2D>().AddForce(obj.transform.up * speed / Time.deltaTime * (-1));
+            var dir = objMoveTo.transform.position - obj.transform.position;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            obj.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            if (Vector2.Distance(obj.transform.position, objMoveTo.transform.position) < distance)
+            {
+                obj.GetComponent<Rigidbody2D>().AddForce(obj.transform.up * speed / Time.deltaTime * (-1));
+            }
         }
+    }
+
+    public void OnPauseGame()
+    {
+        paused = true;
+    }
+
+    public void OnResumeGame()
+    {
+        paused = false;
     }
 }

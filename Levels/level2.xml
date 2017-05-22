@@ -10,14 +10,19 @@
       <rotation>
         <x>0</x>
         <y>0</y>
-        <z>-0.8589154</z>
-        <w>-0.512117565</w>
+        <z>-0.9238795</z>
+        <w>-0.382683516</w>
         <eulerAngles>
           <x>0</x>
           <y>0</y>
-          <z>118.39003</z>
+          <z>134.999985</z>
         </eulerAngles>
       </rotation>
+      <localScale>
+        <x>10</x>
+        <y>10</y>
+        <z>0</z>
+      </localScale>
     </MeleeModel>
   </meleeList>
   <rangeList>
@@ -30,14 +35,19 @@
       <rotation>
         <x>0</x>
         <y>0</y>
-        <z>-0.8566042</z>
-        <w>-0.515974164</w>
+        <z>0</z>
+        <w>1</w>
         <eulerAngles>
           <x>0</x>
           <y>0</y>
-          <z>117.874817</z>
+          <z>0</z>
         </eulerAngles>
       </rotation>
+      <localScale>
+        <x>10</x>
+        <y>10</y>
+        <z>0</z>
+      </localScale>
       <gunsPosition>
         <x>0.3</x>
         <y>0</y>
@@ -46,28 +56,71 @@
         <x>-0.3</x>
         <y>0</y>
       </gunsPosition>
-      <gunsRotation>
+      <gunsRotation>0</gunsRotation>
+      <gunsRotation>0</gunsRotation>
+    </RangeModel>
+    <RangeModel transparency="false" invisibility="false" invulnerable="false" health="10000" maxHealth="10000" distanceToMove="80" distanceOfVision="150" gunCount="8" shootingDelay="0.4">
+      <position>
+        <x>-31.9611588</x>
+        <y>-72.67761</y>
+        <z>0</z>
+      </position>
+      <rotation>
         <x>0</x>
         <y>0</y>
-        <z>0</z>
-        <w>0</w>
+        <z>-0.205677077</z>
+        <w>0.978619933</w>
         <eulerAngles>
           <x>0</x>
           <y>0</y>
-          <z>0</z>
+          <z>336.261719</z>
         </eulerAngles>
-      </gunsRotation>
-      <gunsRotation>
-        <x>0</x>
-        <y>0</y>
+      </rotation>
+      <localScale>
+        <x>50</x>
+        <y>50</y>
         <z>0</z>
-        <w>0</w>
-        <eulerAngles>
-          <x>0</x>
-          <y>0</y>
-          <z>0</z>
-        </eulerAngles>
-      </gunsRotation>
+      </localScale>
+      <gunsPosition>
+        <x>0</x>
+        <y>0.4</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>0.4</x>
+        <y>0</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>0</x>
+        <y>-0.4</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>-0.4</x>
+        <y>0</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>0.275</x>
+        <y>0.275</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>-0.275</x>
+        <y>0.275</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>0.275</x>
+        <y>-0.275</y>
+      </gunsPosition>
+      <gunsPosition>
+        <x>-0.275</x>
+        <y>-0.275</y>
+      </gunsPosition>
+      <gunsRotation>0</gunsRotation>
+      <gunsRotation>-90</gunsRotation>
+      <gunsRotation>180</gunsRotation>
+      <gunsRotation>90</gunsRotation>
+      <gunsRotation>-45</gunsRotation>
+      <gunsRotation>45</gunsRotation>
+      <gunsRotation>-135</gunsRotation>
+      <gunsRotation>135</gunsRotation>
     </RangeModel>
   </rangeList>
   <wallList>
@@ -88,30 +141,58 @@
           <z>0</z>
         </eulerAngles>
       </rotation>
-      <scale>
+      <localScale>
         <x>1</x>
         <y>15</y>
         <z>0</z>
-      </scale>
+      </localScale>
+    </WallModel>
+    <WallModel>
+      <position>
+        <x>25</x>
+        <y>25</y>
+        <z>0</z>
+      </position>
+      <rotation>
+        <x>0</x>
+        <y>0</y>
+        <z>0</z>
+        <w>1</w>
+        <eulerAngles>
+          <x>0</x>
+          <y>0</y>
+          <z>0</z>
+        </eulerAngles>
+      </rotation>
+      <localScale>
+        <x>1</x>
+        <y>15</y>
+        <z>0</z>
+      </localScale>
     </WallModel>
   </wallList>
   <playerObj transparency="false" invisibility="false" invulnerable="true" health="2000" maxHealth="2000" distanceToMove="0" distanceOfVision="0" gunCount="2" shootingDelay="0.1">
     <position>
-      <x>-327.396667</x>
-      <y>-140.187088</y>
+      <x>0</x>
+      <y>0</y>
       <z>0</z>
     </position>
     <rotation>
       <x>0</x>
       <y>0</y>
-      <z>0.203898132</z>
-      <w>0.978992164</w>
+      <z>0.497900575</z>
+      <w>0.8672342</w>
       <eulerAngles>
         <x>0</x>
         <y>0</y>
-        <z>23.5300083</z>
+        <z>59.7224045</z>
       </eulerAngles>
     </rotation>
+    <localScale>
+      <x>10</x>
+      <y>10</y>
+      <z>0</z>
+    </localScale>
     <gunsPosition>
       <x>0.3</x>
       <y>0</y>
@@ -120,27 +201,7 @@
       <x>-0.3</x>
       <y>0</y>
     </gunsPosition>
-    <gunsRotation>
-      <x>0</x>
-      <y>0</y>
-      <z>0</z>
-      <w>0</w>
-      <eulerAngles>
-        <x>0</x>
-        <y>0</y>
-        <z>0</z>
-      </eulerAngles>
-    </gunsRotation>
-    <gunsRotation>
-      <x>0</x>
-      <y>0</y>
-      <z>0</z>
-      <w>0</w>
-      <eulerAngles>
-        <x>0</x>
-        <y>0</y>
-        <z>0</z>
-      </eulerAngles>
-    </gunsRotation>
+    <gunsRotation>0</gunsRotation>
+    <gunsRotation>0</gunsRotation>
   </playerObj>
 </LevelModel>

@@ -17,6 +17,7 @@ public abstract class PersonController : MonoBehaviour
     public GameObject textHealthBar;
     public float distanceToMove;
     public float distanceOfVision;
+    public int scorePoints;
 
     public abstract void Start();
 
