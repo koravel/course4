@@ -27,6 +27,8 @@ public class ArcadeLevelBuilder : LevelBuilder
             meleeEnemy.GetComponent<MeleeController>().maxHealth = meleeModel.maxHealth;
             meleeEnemy.GetComponent<MeleeController>().distanceToMove = meleeModel.distanceToMove;
             meleeEnemy.GetComponent<MeleeController>().distanceOfVision = meleeModel.distanceOfVision;
+            meleeEnemy.GetComponent<MeleeController>().scorePoints = meleeModel.scorePoints;
+            meleeEnemy.GetComponent<MeleeController>().hurtDelay = meleeModel.hurtDelay;
         }
         catch(Exception ex)
         {
@@ -41,10 +43,8 @@ public class ArcadeLevelBuilder : LevelBuilder
         try
         {
             rangeEnemy.name = "EnemyRange";
-            rangeEnemy.GetComponent<RangeController>().gunsPosition = rangeModel.gunsPosition;
-            rangeEnemy.GetComponent<RangeController>().gunsRotation = rangeModel.gunsRotation;
             rangeEnemy.GetComponent<RangeController>().gunCount = rangeModel.gunCount;
-
+            rangeEnemy.GetComponent<RangeController>().bulletPrefab = rangeModel.bulletPrefab;
             for (int i = 0; i < rangeModel.gunCount; i++)
             {
                 rangeEnemy.GetComponent<RangeController>().guns.Add(null);
@@ -52,7 +52,7 @@ public class ArcadeLevelBuilder : LevelBuilder
                 rangeEnemy.GetComponent<RangeController>().guns[i].name = "ShootingController";
                 rangeEnemy.GetComponent<RangeController>().guns[i].AddComponent<ShootingController>();
                 rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<ShootingController>().burstDelay = rangeModel.shootingDelay;
-                rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<ShootingController>().shot = Resources.Load<GameObject>(GlobalData.prefabBulletLazer);
+                rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<ShootingController>().shot = Resources.Load<GameObject>(rangeModel.bulletPrefab);
                 rangeEnemy.GetComponent<RangeController>().guns[i].AddComponent<SpriteRenderer>();
                 rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(GlobalData.textureGun);
                 rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -63,9 +63,9 @@ public class ArcadeLevelBuilder : LevelBuilder
                 rangeEnemy.GetComponent<RangeController>().guns[i].AddComponent<BoxCollider2D>();
                 rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.7f);
                 rangeEnemy.GetComponent<RangeController>().guns[i].GetComponent<BoxCollider2D>().sharedMaterial = Resources.Load<PhysicsMaterial2D>(GlobalData.materialGun);
-                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localPosition = rangeEnemy.GetComponent<RangeController>().gunsPosition[i];
-                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localRotation = Quaternion.Euler(new Vector3(0, 0, rangeEnemy.GetComponent<RangeController>().gunsRotation[i]));
-                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localScale = new Vector3(1, 1, 0);
+                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localPosition = rangeModel.gunsPosition[i];
+                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localRotation = Quaternion.Euler(new Vector3(0, 0, rangeModel.gunsRotation[i]));
+                rangeEnemy.GetComponent<RangeController>().guns[i].transform.localScale = new Vector3(rangeModel.gunsScale[i], rangeModel.gunsScale[i], 0);
             }
         }
         catch (Exception ex)

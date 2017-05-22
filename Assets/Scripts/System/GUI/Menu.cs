@@ -196,6 +196,11 @@ public class Menu : MonoBehaviour
         if(!string.IsNullOrEmpty(currentUser))
         {
             GlobalData.user = users.Find(u => u.Name == currentUser);
+            if(GlobalData.levelPathes.Count > GlobalData.user.LevelsAccess.Count)
+            {
+                GlobalData.user.LevelsAccess.AddRange(GlobalData.levelPathes.Select(s => false));
+                GlobalData.user.LevelsScore.AddRange(GlobalData.levelPathes.Select(s => 0));
+            }
             string curDir = string.Format("{0}\\{1}",GlobalData.usersDir ,currentUser);
             userLevelPathes = Directory.GetFiles(curDir).Select(s => s).OrderBy(s => s.Length).ThenBy(s => s, new StringComparer()).ToList();
             MenuSwitches.switchWindowDelegate.Invoke(chooseProfileMenu, mainMenu, false);
@@ -234,6 +239,7 @@ public class Menu : MonoBehaviour
     public void LoadLevelPress()
     {
         GlobalData.levelName = currentLevelDir + "\\" + currentLevel + ".xml";
+        GlobalData.levelIndex = currentLevelIndex;
         if (File.Exists(GlobalData.levelName))
         {
             if (loadViewSlider.value == 0)

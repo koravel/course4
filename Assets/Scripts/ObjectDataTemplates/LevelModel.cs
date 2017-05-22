@@ -21,4 +21,6 @@ public class LevelModel
     public int levelScore;
     [XmlAttribute]
     public int levelTime;
+    [XmlAttribute]
+    public int levelIndex;
 }
