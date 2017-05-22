@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Name>qwe</Name>
+    <LevelsAccess />
+    <LevelsScore />
+  </User>
+  <User>
+    <Name>asd</Name>
+    <LevelsAccess />
+    <LevelsScore />
+  </User>
+  <User>
+    <Name>asdasd</Name>
+    <LevelsAccess />
+    <LevelsScore />
+  </User>
+</ArrayOfUser>

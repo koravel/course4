@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Utilites.Level
 {
-    public class Level
+    public class Level : MonoBehaviour
     {
         private string levelName;
         public string LevelName
@@ -16,6 +16,19 @@ namespace Utilites.Level
             set
             {
                 levelName = value;
+            }
+        }
+
+        private List<GameObject> levelObjects;
+        public List<GameObject> LevelObjects
+        {
+            get
+            {
+                return LevelObjects;
+            }
+            set
+            {
+                levelObjects = value;
             }
         }
 

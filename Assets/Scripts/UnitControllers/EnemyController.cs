@@ -1,5 +1,4 @@
-﻿using System;
-using Controllers;
+﻿using Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +29,6 @@ public class EnemyController : PersonController
 
     public override void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
         lastHurtTime = Time.time;
         movementController.objMoveTo = GameObject.FindWithTag("Player");
         health = maxHealth;
@@ -56,7 +54,7 @@ public class EnemyController : PersonController
         GetComponentInChildren<Canvas>().enabled = !healthInvisibility;
     }
 
-    void Hurt(Collision2D collision)
+    protected void Hurt(Collision2D collision)
     {
         if (Time.time > (lastHurtTime + hurtDelay))
         {

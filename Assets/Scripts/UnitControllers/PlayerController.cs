@@ -1,53 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using Controllers;
 
-public class PlayerController : PersonController
+public class PlayerController : EnemyRangeController
 {
-    public int gunCount;
-    public float shootingDelay;
+
+    public Camera cam;
 
     public override void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        health = maxHealth;
-        textHealthBar.GetComponent<Text>().text = health.ToString();
-        lastHurtTime = Time.time;
-        gunsPosition = new float[] { 1.5f, -1.5f };
-        for (int i = 0; i < gunCount; i++)
-        {
-            guns.Add(new GameObject());
-            guns[i].name = "ShootingController";
-            guns[i].AddComponent<ShootingController>();
-            guns[i].GetComponent<ShootingController>().shotSpawn = guns[i].GetComponent<ShootingController>().transform;
-            guns[i].GetComponent<ShootingController>().burstDelay = shootingDelay;
-            guns[i].GetComponent<ShootingController>().shot = Resources.Load<GameObject>("Prefabs\\Units\\BulletLazer");
-            guns[i].transform.SetParent(transform);
-            guns[i].AddComponent<SpriteRenderer>();
-            guns[i].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures\\gun512x128");
-            guns[i].GetComponent<SpriteRenderer>().sortingOrder = 1;
-            guns[i].AddComponent<AudioSource>();
-            guns[i].GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Sounds\\weapon_player");
-            guns[i].transform.position = transform.position;
-            guns[i].AddComponent<BoxCollider2D>();
-            guns[i].GetComponent<BoxCollider2D>().size = new Vector2(1.3f, 5.2f);
-            guns[i].GetComponent<BoxCollider2D>().sharedMaterial = Resources.Load<PhysicsMaterial2D>("PhysicsMaterials\\PlayerBounce");
-            if (gunCount > 1)
-            {
-                if (i < 2)
-                {
-                    guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition = new Vector3(guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.x + gunsPosition[i], guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.y, 0);
-                }
-                else if (i < 4)
-                {
-                    guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition = new Vector3(guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.x + gunsPosition[i - 2] * 2, guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.y + 0.3f, 0);
-                }
-            }
-            else if (gunCount == 1)
-            {
-                guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition = new Vector3(guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.x, guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.y + 0.3f, guns[i].GetComponent<ShootingController>().shotSpawn.transform.localPosition.z);
-            }
-        }
+        base.Start();
+        cam.GetComponent<CameraMove>().target = gameObject.transform;
     }
 
     public override void Update()
@@ -91,11 +52,6 @@ public class PlayerController : PersonController
         Hurt();
     }
 
-    public override void OnDestroy()
-    {
-        
-    }
-
     public override void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -103,7 +59,7 @@ public class PlayerController : PersonController
         movementController.Move(new Vector2(horizontal, vertical));
     }
 
-    void Hurt()
+    private void Hurt()
     {
         if (Time.time > (lastHurtTime + hurtDelay))
         {
@@ -119,11 +75,5 @@ public class PlayerController : PersonController
                 Destroy(gameObject);
             }
         }
-    }
-
-    public void SetHealthBar(float myHealth, float maxHealth)
-    {
-        healthBar.transform.localScale = new Vector3(myHealth / maxHealth, healthBar.transform.localScale.y, 0);
-        textHealthBar.GetComponent<Text>().text = myHealth.ToString();
     }
 }

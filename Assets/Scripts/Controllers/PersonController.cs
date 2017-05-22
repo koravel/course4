@@ -20,8 +20,6 @@ namespace Controllers
         public GameObject healthBar;
         public GameObject textHealthBar;
 
-        protected Rigidbody2D rigidBody;
-
         public abstract void Start();
 
         public abstract void FixedUpdate();

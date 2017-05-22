@@ -6,6 +6,8 @@ using Utilites.Serialiazer;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Menu : MonoBehaviour
 {
@@ -37,26 +39,44 @@ public class Menu : MonoBehaviour
     public Canvas levelsMenu;
 
     private Level currentLevel = new Level();
-    //private List<string> users;
-    private List<User> users;
+    private List<string> levelPathes;
+    private List<User> users = new List<User>();
     private string currentUser;
-    private string usersListFileName = "qwe.xml";
     private string usersDir = "Users";
+    private string dataDir = "Data";
+    private string usersListFileName = "users.xml";
+    private string levelsListFileName = "levels.xml";
+
+    private void DirectoryCheck(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+    }
 
     void Start ()
     {
         addUserWindow.enabled = false;
-        //users = new List<string>();
         userList = new List<GameObject>();
-        //Serialiazer.DeserialiazitionFromXml(ref users, usersDir + "\\" + usersListFileName);
-        users = JsonUtility.FromJson<List<User>>(usersDir + "\\" + usersListFileName);
-        for(int i = 0; i < users.Count; i++)
-        {
-            OnUserCreate(i, users[i]);
-        }
         currentUser = "";
-        if(users.Count > 0)
+        DirectoryCheck(dataDir);
+        DirectoryCheck(usersDir);
+        if (File.Exists(dataDir + "\\" + usersListFileName))
         {
+            Serialiazer.DeserialiazitionFromXml(ref users, dataDir + "\\" + usersListFileName);
+        }
+        if (File.Exists(dataDir + "\\" + levelsListFileName))
+        {
+            Serialiazer.DeserialiazitionFromXml(ref levelPathes, dataDir + "\\" + levelsListFileName);
+        }
+        if (users.Count > 0)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                OnUserCreate(i, users[i].Name);
+            }
+
             currentUser = users[0].Name;
         }
 
@@ -120,27 +140,17 @@ public class Menu : MonoBehaviour
         exitProfileText.enabled = false;
         userListText.enabled = false;
     }
+
     //Create user on add action
     public void CreateUserOnAdd()
     {
-        if(!string.IsNullOrEmpty(inputField.text) && 
-            !(x) => 
-            {
-                foreach (var item.Name in users) 
-                {
-                    if (item.Name.Contains(inputField.text))
-                    {
-                        x = true;
-                    }
-                }
-            }
-        )
+        if (!string.IsNullOrEmpty(inputField.text) && !users.Exists(x => x.Name.ToLower() == inputField.text.ToLower()))
         {
             int length = userList.Count;
             OnUserCreate(length, inputField.text);
-            users.Add(inputField.text);
+            users.Add(new User() { Name = inputField.text, LevelsAccess = new List<bool>() {  }, LevelsScore = new List<int>() {  } });
             Directory.CreateDirectory(usersDir + "\\" + inputField.text);
-            Serialiazer.SerialiazeToXml(ref users, usersDir + "\\" + usersListFileName);
+            Serialiazer.SerialiazeToXml(ref users, dataDir + "\\" + usersListFileName);
             addUserWindow.enabled = false;
             inputField.text = "";
             createNewUserText.enabled = true;
@@ -196,7 +206,7 @@ public class Menu : MonoBehaviour
         userList[pos].GetComponent<RectTransform>().offsetMax = new Vector2(0, -pos * 50);
         userList[pos].GetComponent<RectTransform>().offsetMin = new Vector2(0, userList[pos].GetComponent<RectTransform>().offsetMin.y);
     }
-    //On click user updates current int of user
+    //On click user updates current user
     void HighlightListTip(GameObject objText)
     {
         currentUser = objText.GetComponent<Text>().text;
@@ -204,25 +214,25 @@ public class Menu : MonoBehaviour
     //Delete current user
     public void DeleteUserPress()
     {
-        string userName = users.Find(item => item == currentUser);
-        Destroy(userList.Find(item => item.GetComponent<Text>().text == currentUser));
-        users.Remove(userName);
+        string userName = users.Find(item => item.Name == currentUser).Name;
+        GameObject deleteObj = userList.Find(item => item.GetComponent<Text>().text == currentUser);
+        Destroy(deleteObj);
+        userList.Remove(deleteObj);
+        users.Remove(users.Find(item => item.Name == userName));
         if(userList.Count == 0)
         {
             currentUser = "";
         }
         Directory.Delete(usersDir + "\\" + userName);
-        Serialiazer.SerialiazeToXml(ref users, usersDir + "\\" + usersListFileName);
+        Serialiazer.SerialiazeToXml(ref users, dataDir + "\\" + usersListFileName);
+        Debug.Log(userList.Count);
     }
 
     #endregion
 
     public void ExitGame()
     {
-        if(!Directory.Exists(usersDir))
-        {
-            Directory.CreateDirectory(usersDir);
-        }
+        DirectoryCheck(dataDir);
         Application.Quit();
     }
 

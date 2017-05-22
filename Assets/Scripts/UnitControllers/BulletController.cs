@@ -7,20 +7,20 @@ public class BulletController : MonoBehaviour
     public float speed;
     public float damage;
     public Vector3 target;
-    public Transform sourseTransform;
+    public GameObject sourseObject;
     public GameObject contactAnimation;
 
     void Start()
     {
-        target -= sourseTransform.parent.position;
+        target -= sourseObject.transform.parent.position;
         target.z = 0;
         GetComponent<Rigidbody2D>().velocity = Vector3.Normalize(target) * speed;
-        transform.rotation = sourseTransform.parent.rotation;
+        transform.rotation = sourseObject.transform.parent.rotation;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.transform != sourseTransform.parent.transform && other.gameObject.transform != sourseTransform && (other.gameObject.transform != null && sourseTransform.parent.transform != null))
+        if(other.gameObject.GetComponent<ShootingController>() == null && other.gameObject != sourseObject && other.gameObject != sourseObject.transform.parent.gameObject && other.gameObject != null && sourseObject != null && sourseObject.transform.parent.gameObject != null)
         {
             Instantiate(contactAnimation, transform.position, transform.rotation);
             if(other.gameObject.GetComponent<PersonController>() != null)
