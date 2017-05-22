@@ -1,37 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <User>
-    <Name>qwe</Name>
+    <Name>bvnvb</Name>
     <LevelsAccess>
       <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
-    </LevelsAccess>
-    <LevelsScore>
-      <int>0</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-      <int>500</int>
-    </LevelsScore>
-  </User>
-  <User>
-    <Name>12125</Name>
-    <LevelsAccess>
-      <boolean>true</boolean>
-      <boolean>true</boolean>
+      <boolean>false</boolean>
       <boolean>false</boolean>
       <boolean>false</boolean>
       <boolean>false</boolean>
@@ -43,7 +16,7 @@
     </LevelsAccess>
     <LevelsScore>
       <int>0</int>
-      <int>300</int>
+      <int>0</int>
       <int>0</int>
       <int>0</int>
       <int>0</int>
@@ -55,7 +28,34 @@
     </LevelsScore>
   </User>
   <User>
-    <Name>4545</Name>
+    <Name>gygu</Name>
+    <LevelsAccess>
+      <boolean>true</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+      <boolean>false</boolean>
+    </LevelsAccess>
+    <LevelsScore>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </LevelsScore>
+  </User>
+  <User>
+    <Name>изикатка</Name>
     <LevelsAccess>
       <boolean>true</boolean>
       <boolean>false</boolean>

@@ -4,7 +4,6 @@ public class GlobalData
 {
     public static User user;
     public static string levelName = "";
-    public static int levelIndex;
     public static int score;
     public static List<string> levelPathes;
     public static bool isEntered = false;

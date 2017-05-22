@@ -57,8 +57,6 @@ public class InGameMenu : MonoBehaviour
     private int time;
     private int beginLevelTyme;
     public BuilderDirector director;
-    public Canvas winGameCanvas;
-    public Canvas looseGameCanvas;
 
     void Start()
     {
@@ -68,7 +66,7 @@ public class InGameMenu : MonoBehaviour
         ScoreUpdate(0);
         GlobalData.score = 0;
         levelListContent = new List<GameObject>();
-        MenuSwitches.switchComponentsDelegate.Invoke(new List<GameObject>() { pauseMenu.gameObject, levelManagerMenu.gameObject, inGameMenu.gameObject, pauseButton.gameObject, scoreText.gameObject, timeText.gameObject, saveLevelCanvas.gameObject, winGameCanvas.gameObject, looseGameCanvas.gameObject }, new List<bool>() { false, false, true, true, true, true, false, false, false });
+        MenuSwitches.switchComponentsDelegate.Invoke(new List<GameObject>() { pauseMenu.gameObject, levelManagerMenu.gameObject, inGameMenu.gameObject, pauseButton.gameObject, scoreText.gameObject, timeText.gameObject, saveLevelCanvas.gameObject }, new List<bool>() { false, false, true, true, true, true, false });
     }
 
     private string TimeStyleCheck(int number)

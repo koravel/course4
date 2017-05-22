@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{BD5555CD-290B-ACFB-56C0-511E293EFE96}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_0;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_32;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Extra\Fonts\Script\scriptTexttest.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\AlwaysFace.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\CameraScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\DestroyAfter.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\GUICameraScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\GUIHPParticleScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\GUIProjectileSettingsScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\HPParticleScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\HPScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\PlayerCollisionScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileScript.cs" />
+     <Compile Include="Assets\Extra\HPParticle\Scripts\ProjectileShooterScript.cs" />
+     <Compile Include="Assets\Scripts\BasicControllers\MovementController.cs" />
+     <Compile Include="Assets\Scripts\BasicControllers\ShootingController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\CameraMove.cs" />
+     <Compile Include="Assets\Scripts\Controllers\DestroyByTime.cs" />
+     <Compile Include="Assets\Scripts\Controllers\PersonController.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\LevelModel.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\MeleeModel.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\ObjectModel.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\PlayerModel.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\RangeModel.cs" />
+     <Compile Include="Assets\Scripts\ObjectDataTemplates\WallModel.cs" />
+     <Compile Include="Assets\Scripts\System\Data\GlobalData.cs" />
+     <Compile Include="Assets\Scripts\System\Data\Level.cs" />
+     <Compile Include="Assets\Scripts\System\Data\User.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\FPSDisplay.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\GameController.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\InGameMenu.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\Menu.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\MenuSwitches.cs" />
+     <Compile Include="Assets\Scripts\System\GUI\ScrollContentInit.cs" />
+     <Compile Include="Assets\Scripts\System\LevelControl\ArcadeLevelBuilder.cs" />
+     <Compile Include="Assets\Scripts\System\LevelControl\BuilderDirector.cs" />
+     <Compile Include="Assets\Scripts\System\LevelControl\LevelBuilder.cs" />
+     <Compile Include="Assets\Scripts\System\LevelControl\LevelDecomposer.cs" />
+     <Compile Include="Assets\Scripts\System\Utilites\App.cs" />
+     <Compile Include="Assets\Scripts\System\Utilites\Serialiazer.cs" />
+     <Compile Include="Assets\Scripts\System\Utilites\StringComparer.cs" />
+     <Compile Include="Assets\Scripts\UnitControllers\BulletController.cs" />
+     <Compile Include="Assets\Scripts\UnitControllers\MeleeController.cs" />
+     <Compile Include="Assets\Scripts\UnitControllers\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\UnitControllers\RangeController.cs" />
+     <Compile Include="Assets\Scripts\UnitControllers\WallController.cs" />
+     <None Include="Assets\Extra\Fonts\Documentation\JazzCreateBubble_VersionHistory_1.1.txt" />
+     <None Include="Assets\Extra\HPParticle\Third Person Character\Third Person Character Guidelines.txt" />
+     <None Include="Assets\Extra\Fonts\Documentation\JazzCreateAltKeys_BubbleFont.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PlaymodeTestsRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

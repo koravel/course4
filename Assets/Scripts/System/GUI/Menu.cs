@@ -69,6 +69,7 @@ public class Menu : MonoBehaviour
     private List<string> userLevelPathes;
     private List<User> users = new List<User>();
     private string currentUser;
+    private bool isLoadGamePressed;
     private ColorBlock buttonStyle = new ColorBlock() { normalColor = new Color32(187, 210, 83, 255), highlightedColor = new Color32(0, 0, 0, 255), pressedColor = new Color32(0, 0, 0, 255), disabledColor = new Color32(0, 0, 0, 255), fadeDuration = 0.4f, colorMultiplier = 1f };
 
     private void DirectoryCheck(string path)
@@ -195,11 +196,6 @@ public class Menu : MonoBehaviour
         if(!string.IsNullOrEmpty(currentUser))
         {
             GlobalData.user = users.Find(u => u.Name == currentUser);
-            if(GlobalData.levelPathes.Count > GlobalData.user.LevelsAccess.Count)
-            {
-                GlobalData.user.LevelsAccess.AddRange(GlobalData.levelPathes.Select(s => false));
-                GlobalData.user.LevelsScore.AddRange(GlobalData.levelPathes.Select(s => 0));
-            }
             string curDir = string.Format("{0}\\{1}",GlobalData.usersDir ,currentUser);
             userLevelPathes = Directory.GetFiles(curDir).Select(s => s).OrderBy(s => s.Length).ThenBy(s => s, new StringComparer()).ToList();
             MenuSwitches.switchWindowDelegate.Invoke(chooseProfileMenu, mainMenu, false);
@@ -238,7 +234,6 @@ public class Menu : MonoBehaviour
     public void LoadLevelPress()
     {
         GlobalData.levelName = currentLevelDir + "\\" + currentLevel + ".xml";
-        GlobalData.levelIndex = currentLevelIndex;
         if (File.Exists(GlobalData.levelName))
         {
             if (loadViewSlider.value == 0)
